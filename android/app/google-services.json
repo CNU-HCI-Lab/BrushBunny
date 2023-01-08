@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "548789043623",
+    "project_id": "oral-hygiene-habits-aa818",
+    "storage_bucket": "oral-hygiene-habits-aa818.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548789043623:android:bc2a7a9c2496bb7da23682",
+        "android_client_info": {
+          "package_name": "com.example.oral_hygiene_habits"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548789043623-6v7v1anfflh1em7io92lr05k8v2es3po.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUP4s_7LFS1YugweguE0b3Vyw8zokGFsY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548789043623-6v7v1anfflh1em7io92lr05k8v2es3po.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
