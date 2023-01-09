@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:oral_hygiene_habits/do_brushing.dart';
+import 'package:oral_hygiene_habits/goal_reward.dart';
+import 'package:oral_hygiene_habits/home_mainfeed.dart';
+import 'package:oral_hygiene_habits/learning_oral_hygiene.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -9,6 +13,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+
+  static const List<Widget> _widgetOptions = <Widget>[
+    HomeMainFeed(),
+    LearningOralHygiene(),
+    DoBrushing(),
+    GoalReward(),
+  ];
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(builder: (context, orientation, deviceType) {
@@ -49,20 +67,36 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              backgroundColor: Color.fromARGB(255, 234, 166, 117),
+              icon: Icon(Icons.home),
+              label: '홈',
+            ),
+            BottomNavigationBarItem(
+              backgroundColor: Color(0xffA8CFBD),
+              icon: Icon(Icons.school_rounded),
+              label: '배우기',
+            ),
+            BottomNavigationBarItem(
+              backgroundColor: Color(0xffAEAC9A),
+              icon: Icon(Icons.face_retouching_natural),
+              label: '양치질',
+            ),
+            BottomNavigationBarItem(
+              backgroundColor: Color.fromARGB(255, 237, 180, 180),
+              icon: Icon(Icons.diamond_rounded),
+              label: '보상',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.white,
+          onTap: _onItemTapped,
+        ),
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                '메인홈페이지',
-              ),
-              Text(
-                'Brush Bunny',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-            ],
-          ),
-        ), // This trailing comma makes auto-formatting nicer for build methods.
+          child: _widgetOptions.elementAt(_selectedIndex),
+        ),
       );
     });
   }
