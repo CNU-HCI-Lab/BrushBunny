@@ -9,12 +9,12 @@ class StartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveSizer(builder: (context, orientation, deviceType) {
       return MaterialApp(
-        home: startPageWidget(),
+        home: startPageWidget(context),
       );
     });
   }
 
-  Widget startPageWidget() {
+  Widget startPageWidget(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfffffde7),
       body: Stack(
@@ -41,7 +41,7 @@ class StartPage extends StatelessWidget {
                     image: DecorationImage(
                       image:
                           AssetImage('assets/images/circle_StartingImage.png'),
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                     ),
                   ),
                   margin: const EdgeInsets.fromLTRB(20.0, 0.0, 19.0, 0.0),
@@ -118,25 +118,52 @@ class StartPage extends StatelessWidget {
                     height: 1.0.h,
                   ),
                   ElevatedButton(
-                      onPressed: () {},
+                      //회원가입
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/register');
+                      },
                       style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          )),
                           backgroundColor: MaterialStateProperty.all<Color>(
                               const Color(0xffF78F6E)),
                           foregroundColor:
                               MaterialStateProperty.all<Color>(Colors.black),
                           fixedSize:
                               MaterialStateProperty.all<Size>(Size(50.w, 5.h))),
-                      child: const Text('이메일로 회원가입')),
+                      child: Text('회원가입',
+                          style: TextStyle(
+                            fontSize: 16.5.sp,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 1.5,
+                          ))),
+                  SizedBox(
+                    height: 0.5.h,
+                  ),
                   ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/login');
+                      },
                       style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          )),
                           backgroundColor: MaterialStateProperty.all<Color>(
                               const Color(0xffFFC6A2)),
                           foregroundColor:
                               MaterialStateProperty.all<Color>(Colors.black),
                           fixedSize:
                               MaterialStateProperty.all<Size>(Size(50.w, 5.h))),
-                      child: const Text('로그인')),
+                      child: Text('로그인',
+                          style: TextStyle(
+                            fontSize: 16.5.sp,
+                            letterSpacing: 1.5,
+                          ))),
                 ],
               )),
         ],
