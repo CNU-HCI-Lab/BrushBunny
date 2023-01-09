@@ -86,7 +86,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         await _auth.createUserWithEmailAndPassword(
                             email: email, password: password);
                         if (!mounted) return;
-                        Navigator.pushNamed(context, '/home');
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, '/main', (route) => false);
                       } catch (e) {
                         //print(e);
                       }
