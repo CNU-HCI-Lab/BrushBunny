@@ -67,15 +67,16 @@ class StartPage extends StatelessWidget {
                   Text(
                     'Brushing Bunny',
                     style: TextStyle(
+                      fontFamily: 'HS-yuji',
                       fontSize: 25.sp,
-                      color: const Color(0xff000000),
+                      color: const Color(0xffF78F6E),
                       fontWeight: FontWeight.w700,
                     ),
                     textAlign: TextAlign.center,
                     softWrap: false,
                   ),
                   SizedBox(
-                    height: 1.0.h,
+                    height: 2.0.h,
                   ),
                   Text(
                     '로그인 후 사용 가능합니다.',
