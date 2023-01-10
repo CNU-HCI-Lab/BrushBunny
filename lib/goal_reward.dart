@@ -12,9 +12,7 @@ class _GoalRewardState extends State<GoalReward> {
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(builder: (context, orientation, deviceType) {
-      return Container(
-        child: Text('index 3'),
-      );
+      return const Text('index 3');
     });
   }
 }

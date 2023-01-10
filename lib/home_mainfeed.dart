@@ -12,9 +12,7 @@ class _HomeMainFeedState extends State<HomeMainFeed> {
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(builder: (context, orientation, deviceType) {
-      return Container(
-        child: Text('index 0'),
-      );
+      return const Text('index 0');
     });
   }
 }

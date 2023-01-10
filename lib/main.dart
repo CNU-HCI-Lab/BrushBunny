@@ -6,6 +6,8 @@ import 'start_page.dart';
 import 'home_page.dart';
 import 'register_page.dart';
 import 'login_page.dart';
+import 'do_brushing.dart';
+import 'brushing_camera.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,12 +34,13 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const HomePage(),
         '/register': (context) => const RegisterPage(),
         '/login': (context) => const LoginPage(),
+        '/do_brushing': (context) => const DoBrushing(),
+        '/brushing_camera': (context) => const BrushingCamera(),
       },
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(), //로그인상태검사
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            //로그인되어있으면 HomePage()
             return const HomePage();
           } else {
             //아니면 StartPage()

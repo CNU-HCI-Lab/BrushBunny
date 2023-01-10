@@ -12,9 +12,11 @@ class _DoBrushingState extends State<DoBrushing> {
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(builder: (context, orientation, deviceType) {
-      return Container(
-        child: Text('index 2'),
-      );
+      return ElevatedButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/brushing_camera');
+          },
+          child: Text('Do Brushing'));
     });
   }
 }

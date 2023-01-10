@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -35,9 +36,17 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           centerTitle: false,
           backgroundColor: const Color.fromARGB(255, 234, 166, 117),
-          title: Text(
-            'BRUSH BUNNY ₍ᐢ.ˬ.ᐢ₎',
-            style: TextStyle(fontFamily: 'HS-yuji', fontSize: 19.sp),
+          title: Row(
+            children: [
+              Text(
+                'BRUSH BUNNY',
+                style: TextStyle(fontFamily: 'HS-yuji', fontSize: 19.sp),
+              ),
+              Text(
+                '₍ᐢ.ˬ.ᐢ₎',
+                style: TextStyle(fontSize: 19.sp),
+              )
+            ],
           ),
           //로그아웃
           actions: [

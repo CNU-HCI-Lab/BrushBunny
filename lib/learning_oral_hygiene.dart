@@ -12,9 +12,7 @@ class _LearningOralHygieneState extends State<LearningOralHygiene> {
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(builder: (context, orientation, deviceType) {
-      return Container(
-        child: Text('index 1'),
-      );
+      return const Text('index 1');
     });
   }
 }
