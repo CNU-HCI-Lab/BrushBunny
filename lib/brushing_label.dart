@@ -23,6 +23,8 @@ class _BrushingLabelState extends State<BrushingLabel> {
   int _badCount = 0;
   int _goodLevel = 0;
   int _badLevel = 0;
+  int _realbadCount = 0;
+  int _realbadLevel = 0;
   int _goodCount2 = 0;
   String _status = 'none';
 
@@ -47,6 +49,7 @@ class _BrushingLabelState extends State<BrushingLabel> {
       goodCount2: _goodCount2,
       goodLevel: _goodLevel,
       badLevel: _badLevel,
+      realbadLevel: _realbadLevel,
       status: _status,
     );
   }
@@ -77,6 +80,8 @@ class _BrushingLabelState extends State<BrushingLabel> {
       } else if (label.label == 'bad') {
         _badCount += 1;
         _badLevel = _badCount ~/ 15;
+        _realbadCount += 1;
+        _realbadLevel = _badCount ~/ 5;
         _status = 'bad';
         //print('bad: $_badLevel');
       }

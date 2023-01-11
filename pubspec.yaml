@@ -51,6 +51,8 @@ dependencies:
   animated_background: ^2.0.0
   flutter_weather_bg_null_safety: ^1.0.0
   custom_timer: ^0.1.2
+  carousel_slider: ^4.2.1
+  cloud_firestore: ^4.3.1
 
 dev_dependencies:
   flutter_test:

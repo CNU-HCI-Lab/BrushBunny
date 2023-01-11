@@ -9,8 +9,6 @@ import 'package:oral_hygiene_habits/brushing_clear.dart';
 
 import 'main.dart';
 
-enum ScreenMode { liveFeed, gallery }
-
 class BrushingCamera extends StatefulWidget {
   const BrushingCamera({
     Key? key,
@@ -20,6 +18,7 @@ class BrushingCamera extends StatefulWidget {
     required this.badLevel,
     required this.status,
     required this.goodCount2,
+    required this.realbadLevel,
   }) : super(key: key);
 
   final Function(InputImage inputImage) onImage;
@@ -28,6 +27,7 @@ class BrushingCamera extends StatefulWidget {
   final int goodLevel;
   final int badLevel;
   final String status;
+  final int realbadLevel;
 
   @override
   State<BrushingCamera> createState() => _BrushingCameraState();
@@ -38,6 +38,7 @@ class _BrushingCameraState extends State<BrushingCamera>
   final CustomTimerController _timer = CustomTimerController();
   CameraController? _controller;
   int _cameraIndex = -1;
+  String? clearTime;
 
   @override
   void initState() {
@@ -67,6 +68,7 @@ class _BrushingCameraState extends State<BrushingCamera>
   @override
   void dispose() {
     _stopLiveFeed();
+    _timer.dispose();
     super.dispose();
   }
 
@@ -136,7 +138,7 @@ class _BrushingCameraState extends State<BrushingCamera>
                               child: const Text('아니요'),
                             ),
                             TextButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 Navigator.pop(context, 'OK');
                                 //현재 창 종료하고 /brushing_claer 로 이동
                                 Navigator.pop(context);
@@ -144,7 +146,11 @@ class _BrushingCameraState extends State<BrushingCamera>
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => BrushingClear()));
+                                        builder: (context) => BrushingClear(
+                                              time: clearTime,
+                                              goodCount: widget.goodLevel,
+                                              badCount: widget.realbadLevel,
+                                            )));
                               },
                               child: const Text('네'),
                             ),
@@ -173,6 +179,7 @@ class _BrushingCameraState extends State<BrushingCamera>
         begin: const Duration(),
         end: const Duration(minutes: 5),
         builder: (time) {
+          clearTime = "${time.minutes}:${time.seconds}";
           return Text("${time.minutes}:${time.seconds}",
               style: const TextStyle(
                   color: Colors.white,
