@@ -14,9 +14,9 @@ class _DoBrushingState extends State<DoBrushing> {
     return ResponsiveSizer(builder: (context, orientation, deviceType) {
       return ElevatedButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/brushing_camera');
+            Navigator.pushNamed(context, '/brushing_label');
           },
-          child: Text('Do Brushing'));
+          child: const Text('Do Brushing'));
     });
   }
 }

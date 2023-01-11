@@ -8,10 +8,12 @@ import 'home_page.dart';
 import 'register_page.dart';
 import 'login_page.dart';
 import 'do_brushing.dart';
-import 'brushing_camera.dart';
+import 'brushing_label.dart';
 
+List<CameraDescription> cameras = [];
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -36,7 +38,7 @@ class MyApp extends StatelessWidget {
         '/register': (context) => const RegisterPage(),
         '/login': (context) => const LoginPage(),
         '/do_brushing': (context) => const DoBrushing(),
-        '/brushing_camera': (context) => const BrushingCamera(),
+        '/brushing_label': (context) => const BrushingLabel(),
       },
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(), //로그인상태검사
