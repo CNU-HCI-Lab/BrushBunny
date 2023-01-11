@@ -21,8 +21,43 @@ class BrushingClear extends StatefulWidget {
 }
 
 class _BrushingClearState extends State<BrushingClear> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore db = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
+    User? user = auth.currentUser;
+    String? uid = user?.uid;
+
+    checkTodayBrushing() {
+      //collection: user_reward_info
+      //document : uid
+      //document에 uid가 없으면 새로 생성
+      //clear_day 필드 배열에 오늘 날짜 저장
+      db.collection('user_reward_info').doc(uid).set({
+        'clear_day': FieldValue.arrayUnion([DateTime.now()])
+      }, SetOptions(merge: true));
+      //print('양치완료');
+    }
+
+    recordTodayPoint() {
+      //collection: user_reward_info
+      //document : uid
+      //document에 uid가 없으면 새로 생성
+      //clear_day 필드 배열에 오늘 날짜 저장
+      String dateGoodBadPoint = DateTime.now().toString() +
+          "/" +
+          widget.time.toString() +
+          "/" +
+          widget.goodCount.toString() +
+          "/" +
+          widget.badCount.toString();
+      db.collection('user_reward_info').doc(uid).set({
+        'clear_point': FieldValue.arrayUnion([dateGoodBadPoint])
+      }, SetOptions(merge: true));
+      //print('양치완료');
+    }
+
     return ResponsiveSizer(builder: (context, orientation, deviceType) {
       return Scaffold(
         backgroundColor: const Color(0xfffffde7),
@@ -57,7 +92,10 @@ class _BrushingClearState extends State<BrushingClear> {
                       const Color(0xffFFC6A2),
                     ),
                   ),
-                  onPressed: () async {},
+                  onPressed: () {
+                    checkTodayBrushing();
+                    recordTodayPoint();
+                  },
                   child: const Text('양치질 내역 기록하기',
                       style: TextStyle(
                         fontSize: 15,
