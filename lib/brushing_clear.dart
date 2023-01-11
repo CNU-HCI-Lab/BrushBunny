@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'reward_movie.dart';
 
 class BrushingClear extends StatefulWidget {
   const BrushingClear({
@@ -23,6 +24,12 @@ class BrushingClear extends StatefulWidget {
 class _BrushingClearState extends State<BrushingClear> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore db = FirebaseFirestore.instance;
+  int movieIndex = 0;
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,17 +52,41 @@ class _BrushingClearState extends State<BrushingClear> {
       //document : uid
       //document에 uid가 없으면 새로 생성
       //clear_day 필드 배열에 오늘 날짜 저장
-      String dateGoodBadPoint = DateTime.now().toString() +
-          "/" +
-          widget.time.toString() +
-          "/" +
-          widget.goodCount.toString() +
-          "/" +
-          widget.badCount.toString();
+      String dateGoodBadPoint =
+          "${DateTime.now()}/${widget.time}/${widget.goodCount}/${widget.badCount}";
       db.collection('user_reward_info').doc(uid).set({
         'clear_point': FieldValue.arrayUnion([dateGoodBadPoint])
       }, SetOptions(merge: true));
       //print('양치완료');
+    }
+
+    rewardMovieGet() async {
+      await db
+          .collection('user_reward_info')
+          .doc(uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          if ((documentSnapshot.data() as Map<String, dynamic>)
+              .containsKey('movie_index')) {
+            int tmp = documentSnapshot['movie_index'];
+            movieIndex = tmp + 1;
+            //movie_index 필드 수정
+            db.collection('user_reward_info').doc(uid).set({
+              'movie_index': movieIndex,
+            }, SetOptions(merge: true));
+          } else {
+            //print('사용자가 얻은 영상이 없습니다. (movie_index fied없음)');
+            //movie_index필드 추가
+            db.collection('user_reward_info').doc(uid).set({
+              'movie_index': 1,
+            }, SetOptions(merge: true));
+            movieIndex = 1;
+          }
+        } else {
+          //print('사용자가 얻은 영상이 없습니다.');
+        }
+      });
     }
 
     return ResponsiveSizer(builder: (context, orientation, deviceType) {
@@ -92,11 +123,20 @@ class _BrushingClearState extends State<BrushingClear> {
                       const Color(0xffFFC6A2),
                     ),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     checkTodayBrushing();
                     recordTodayPoint();
+                    await rewardMovieGet();
+                    if (!mounted) return;
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const RewardMovie(),
+                      ),
+                    );
                   },
-                  child: const Text('양치질 내역 기록하기',
+                  child: const Text('양치질 내역 기록하고 보상얻기',
                       style: TextStyle(
                         fontSize: 15,
                       )),
