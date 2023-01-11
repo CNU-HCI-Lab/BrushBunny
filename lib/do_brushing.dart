@@ -49,11 +49,11 @@ class _DoBrushingState extends State<DoBrushing> {
               child: const Text('혼자서 양치질 하기')),
           SizedBox(height: 3.h),
           Container(
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             //둥근모서리
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Color.fromARGB(255, 255, 248, 242),
+              color: const Color.fromARGB(255, 255, 248, 242),
             ),
             width: 88.w,
             child: Image.asset('assets/images/how_brushing.png'),

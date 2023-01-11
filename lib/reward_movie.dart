@@ -56,7 +56,8 @@ class _RewardMovieState extends State<RewardMovie> {
                             style: TextStyle(
                                 fontSize: 22.sp,
                                 fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 105, 105, 105))),
+                                color:
+                                    const Color.fromARGB(255, 105, 105, 105))),
                         SizedBox(height: 2.h),
                         youtubeWidget(),
                         SizedBox(height: 2.h),
