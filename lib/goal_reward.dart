@@ -15,6 +15,13 @@ class _GoalRewardState extends State<GoalReward> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
+  Uri _url = Uri.parse('https://flutter.dev');
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(_url)) {
+      throw 'Could not launch $_url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(builder: (context, orientation, deviceType) {
@@ -28,8 +35,11 @@ class _GoalRewardState extends State<GoalReward> {
             } else {
               //유튜브리스트 출력
               return ListView.builder(
+                scrollDirection: Axis.vertical,
                 itemCount: youtubeId.length,
                 itemBuilder: (context, index) {
+                  _url = Uri.parse(
+                      'https://www.youtube.com/watch?v=${youtubeId[index]}');
                   return Container(
                     margin: EdgeInsets.only(
                         left: 4.w, right: 4.w, top: 1.h, bottom: 1.h),
@@ -45,48 +55,58 @@ class _GoalRewardState extends State<GoalReward> {
                         ),
                       ],
                     ),
-                    child: Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: 3.w, right: 3.w, top: 1.h, bottom: 1.h),
-                          child: Image.network(
-                            "https://img.youtube.com/vi/${youtubeId[index]}/0.jpg",
-                            width: 35.w,
-                            height: 25.h,
-                          ),
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        foregroundColor: const Color.fromARGB(255, 95, 95, 95),
+                        backgroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: 2.w, right: 2.w, top: 1.h, bottom: 1.h),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "시즌 ${seasonNum[index]}회 ${episodeNum[index]}화",
-                                style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                '[${movieName[index]}]',
-                                style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(
-                                width: 25.h,
-                                child: Text(
-                                  movieTitle[index],
+                      ),
+                      onPressed: _launchUrl,
+                      child: Row(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: 3.w, right: 3.w, top: 1.h, bottom: 1.h),
+                            child: Image.network(
+                              "https://img.youtube.com/vi/${youtubeId[index]}/0.jpg",
+                              width: 35.w,
+                              height: 25.h,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: 2.w, right: 2.w, top: 1.h, bottom: 1.h),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "시즌${seasonNum[index]}. ${episodeNum[index]}화",
                                   style: TextStyle(
-                                      fontSize: 17.sp,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.bold),
                                 ),
-                              ),
-                            ],
+                                Text(
+                                  '[${movieName[index]}]',
+                                  style: TextStyle(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  width: 25.h,
+                                  child: Text(
+                                    movieTitle[index],
+                                    style: TextStyle(
+                                        fontSize: 17.sp,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   );
                 },
