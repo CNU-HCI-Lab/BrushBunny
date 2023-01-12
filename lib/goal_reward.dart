@@ -82,16 +82,16 @@ class _GoalRewardState extends State<GoalReward> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "시즌${seasonNum[index]}. ${episodeNum[index]}화",
-                                  style: TextStyle(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
                                   '[${movieName[index]}]',
                                   style: TextStyle(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.bold),
+                                    fontSize: 16.sp,
+                                  ),
+                                ),
+                                Text(
+                                  "시즌${seasonNum[index]}. ${episodeNum[index]}화",
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                  ),
                                 ),
                                 SizedBox(
                                   width: 25.h,

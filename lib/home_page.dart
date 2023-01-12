@@ -31,6 +31,16 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(builder: (context, orientation, deviceType) {
+      String indexTitle = 'Home - ';
+      if (_selectedIndex == 0) {
+        indexTitle = 'HOME ';
+      } else if (_selectedIndex == 1) {
+        indexTitle = '배우기 ';
+      } else if (_selectedIndex == 2) {
+        indexTitle = '양치질 ';
+      } else if (_selectedIndex == 3) {
+        indexTitle = '보상 ';
+      }
       return Scaffold(
         backgroundColor: Colors.yellow[50],
         appBar: AppBar(
@@ -39,13 +49,23 @@ class _HomePageState extends State<HomePage> {
           title: Row(
             children: [
               Text(
+                indexTitle,
+                style: TextStyle(
+                  fontFamily: 'HS-yuji',
+                  fontSize: 20.sp,
+                ),
+              ),
+              Text(
                 'BRUSH BUNNY',
-                style: TextStyle(fontFamily: 'HS-yuji', fontSize: 19.sp),
+                style: TextStyle(
+                    fontFamily: 'HS-yuji',
+                    fontSize: 17.sp,
+                    color: Colors.white),
               ),
               Text(
                 '₍ᐢ.ˬ.ᐢ₎',
-                style: TextStyle(fontSize: 19.sp),
-              )
+                style: TextStyle(fontSize: 17.sp, color: Colors.white),
+              ),
             ],
           ),
           //로그아웃

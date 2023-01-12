@@ -83,15 +83,17 @@ class _RewardMovieState extends State<RewardMovie> {
                               color: Colors.black),
                         ),
                         SizedBox(height: 2.h),
+                        const Text('홈화면의 보상 탭에서도 영상을 확인할 수 있습니다.'),
                         ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
-                                  const Color(0xffF78F6E)),
-                            ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text('홈으로 돌아가기')),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                const Color(0xffF78F6E)),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('홈으로 돌아가기'),
+                        ),
                       ],
                     ),
                   ),
@@ -139,6 +141,7 @@ class _RewardMovieState extends State<RewardMovie> {
           handleColor: Colors.amberAccent,
         ),
         onReady: () {
+          setState(() {});
           //print('Player is ready.');
         },
       ),
