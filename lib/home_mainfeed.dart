@@ -216,47 +216,51 @@ class _HomeMainFeedState extends State<HomeMainFeed> {
     String? uid = user!.uid;
     _isSmile = true;
 
-    await firestore
-        .collection('user_reward_info')
-        .doc(uid)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) async {
-      if (documentSnapshot.exists) {
-        //uid있음
-        await firestore
-            .collection('user_reward_info')
-            .doc(uid)
-            .get()
-            .then((DocumentSnapshot documentSnapshot) {
-          if (documentSnapshot.exists) {
-            clearDay = documentSnapshot['clear_day'];
-            clearDayCount = clearDay!.length;
-            for (int i = 0; i < clearDayCount; i++) {
-              clearDayDate = clearDay![i].toDate();
-              DateTime clearDayDate2 = DateTime(clearDayDate.year,
-                  clearDayDate.month, clearDayDate.day, 0, 0, 0, 0, 0);
-              listEvents.add(
-                clearDayDate2,
-                Event(
-                  date: clearDayDate2,
-                  title: '양치질완료',
-                  icon: const Icon(Icons.star),
-                ),
-              );
-            }
-            if (firstInit == false) {
-              setState(() {});
-              firstInit = true;
-            }
-            //print(clearDay);
+    if (mounted) {
+      await firestore
+          .collection('user_reward_info')
+          .doc(uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) async {
+        if (documentSnapshot.exists) {
+          //uid있음
+          if (mounted) {
+            await firestore
+                .collection('user_reward_info')
+                .doc(uid)
+                .get()
+                .then((DocumentSnapshot documentSnapshot) {
+              if (documentSnapshot.exists) {
+                clearDay = documentSnapshot['clear_day'];
+                clearDayCount = clearDay!.length;
+                for (int i = 0; i < clearDayCount; i++) {
+                  clearDayDate = clearDay![i].toDate();
+                  DateTime clearDayDate2 = DateTime(clearDayDate.year,
+                      clearDayDate.month, clearDayDate.day, 0, 0, 0, 0, 0);
+                  listEvents.add(
+                    clearDayDate2,
+                    Event(
+                      date: clearDayDate2,
+                      title: '양치질완료',
+                      icon: const Icon(Icons.star),
+                    ),
+                  );
+                }
+                if (firstInit == false) {
+                  setState(() {});
+                  firstInit = true;
+                }
+                //print(clearDay);
+              } else {
+                //print('값이 존재하지 않습니다');
+              }
+            });
           } else {
             //print('값이 존재하지 않습니다');
           }
-        });
-      } else {
-        //print('값이 존재하지 않습니다');
-      }
-    });
-    return "Success!";
+        }
+      });
+      return "Success!";
+    }
   }
 }

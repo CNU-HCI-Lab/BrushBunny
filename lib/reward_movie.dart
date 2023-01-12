@@ -17,6 +17,11 @@ class _RewardMovieState extends State<RewardMovie> {
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   void dispose() {
     super.dispose();
   }
@@ -127,7 +132,7 @@ class _RewardMovieState extends State<RewardMovie> {
       },
       player: YoutubePlayer(
         controller: YoutubePlayerController(
-          initialVideoId: //유튜브Id가 null이면 에러가 발생함
+          initialVideoId: //유튜브Id가 null이면 임의영상재생
               youtubeId == null ? 'N0xMYWJBqdw' : youtubeId!,
           flags: const YoutubePlayerFlags(
             autoPlay: false,
@@ -188,18 +193,22 @@ class _RewardMovieState extends State<RewardMovie> {
                 //print('id: $youtubeId');
               } else {
                 //print('존재하지 않는 영상');
+                return "영상이 존재하지 않습니다.";
               }
             } else {
               //print('해당 영상 없음');
+              return "영상이 존재하지 않습니다.";
             }
           });
         } else {
           //print('사용자가 얻은 영상이 없습니다. (movie_index fied없음)');
+          return "영상이 존재하지 않습니다.";
         }
       } else {
         //print('사용자가 얻은 영상이 없습니다.');
+        return "영상이 존재하지 않습니다.";
       }
     });
-    return 'Called getFirebase';
+    return "";
   }
 }

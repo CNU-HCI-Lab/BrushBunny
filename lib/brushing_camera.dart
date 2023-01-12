@@ -141,16 +141,18 @@ class _BrushingCameraState extends State<BrushingCamera>
                               onPressed: () async {
                                 Navigator.pop(context, 'OK');
                                 //현재 창 종료하고 /brushing_claer 로 이동
-                                Navigator.pop(context);
                                 _timer.pause();
+                                Navigator.pop(context);
                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => BrushingClear(
-                                              time: clearTime,
-                                              goodCount: widget.goodLevel,
-                                              badCount: widget.realbadLevel,
-                                            )));
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => BrushingClear(
+                                      time: clearTime,
+                                      goodCount: widget.goodLevel,
+                                      badCount: widget.realbadLevel,
+                                    ),
+                                  ),
+                                );
                               },
                               child: const Text('네'),
                             ),
