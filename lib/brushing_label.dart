@@ -18,11 +18,13 @@ class _BrushingLabelState extends State<BrushingLabel> {
   late ImageLabeler _imageLabeler;
   bool _canProcess = false;
   bool _isBusy = false;
+  // ignore: unused_field
   String? _text;
   int _goodCount = 0;
   int _badCount = 0;
   int _goodLevel = 0;
   int _badLevel = 0;
+  // ignore: unused_field
   int _realbadCount = 0;
   int _realbadLevel = 0;
   int _goodCount2 = 0;

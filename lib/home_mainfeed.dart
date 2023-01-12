@@ -97,15 +97,38 @@ class _HomeMainFeedState extends State<HomeMainFeed> {
                 ),
                 calendarWidget(),
                 Visibility(
-                    visible: selectMessage,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        '달력의 날짜를 선택해주세요.',
-                        style: TextStyle(
-                            fontSize: 18.sp, fontWeight: FontWeight.w500),
+                  visible: selectMessage,
+                  child: Align(
+                    alignment: Alignment.center + const Alignment(0, 0.2),
+                    child: SizedBox(
+                      height: 30.h,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 35.w,
+                            color: const Color.fromARGB(255, 255, 226, 226),
+                            child: Text(
+                              '양치질 기록확인',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 20.sp, fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          SizedBox(height: 1.h),
+                          Container(
+                            color: Colors.white,
+                            child: Text(
+                              '달력의 날짜를 선택해주세요.',
+                              style: TextStyle(
+                                  fontSize: 18.sp, fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                        ],
                       ),
-                    )),
+                    ),
+                  ),
+                ),
                 if (clearDayDate2.contains(_selectedDate))
                   Align(
                     alignment: Alignment.center,
@@ -124,14 +147,15 @@ class _HomeMainFeedState extends State<HomeMainFeed> {
                   ),
                 if (clearDayDate2.contains(_selectedDate))
                   Align(
-                      alignment: Alignment.center + const Alignment(0, 0.1),
-                      child: Container(
-                        color: Colors.white,
-                        child: Text(
-                          '양치질 횟수 : $starCount',
-                          style: TextStyle(fontSize: 18.sp),
-                        ),
-                      )),
+                    alignment: Alignment.center + const Alignment(0, 0.1),
+                    child: Container(
+                      color: Colors.white,
+                      child: Text(
+                        '양치질 횟수 : $starCount',
+                        style: TextStyle(fontSize: 18.sp),
+                      ),
+                    ),
+                  ),
               ],
             );
           }

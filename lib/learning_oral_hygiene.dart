@@ -14,6 +14,8 @@ class _LearningOralHygieneState extends State<LearningOralHygiene> {
   final CarouselController _controller = CarouselController();
   VideoPlayerController? _videoController;
   Future<void>? _initializeVideoPlayerFuture;
+  VideoPlayerController? _videoController2;
+  Future<void>? _initializeVideoPlayerFuture2;
   int _current = 0;
 
   @override
@@ -25,6 +27,11 @@ class _LearningOralHygieneState extends State<LearningOralHygiene> {
     );
     _initializeVideoPlayerFuture = _videoController?.initialize();
 
+    _videoController2 = VideoPlayerController.asset(
+      'assets/movies/BrushingWithSong.mp4',
+    );
+    _initializeVideoPlayerFuture2 = _videoController2?.initialize();
+
     super.initState();
   }
 
@@ -32,6 +39,7 @@ class _LearningOralHygieneState extends State<LearningOralHygiene> {
   void dispose() {
     // 자원을 반환하기 위해 VideoPlayerController를 dispose 시키세요.
     _videoController!.dispose();
+    _videoController2!.dispose();
 
     super.dispose();
   }
@@ -39,9 +47,10 @@ class _LearningOralHygieneState extends State<LearningOralHygiene> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> widgetList = [
-      howToBrushing(),
       brushingWithSong(),
+      howToBrushing(),
       selectToothBrush(),
+      toothpasteInfo(),
       dentalFloss(),
       diagnosisCavity(),
     ];
@@ -53,7 +62,7 @@ class _LearningOralHygieneState extends State<LearningOralHygiene> {
             items: widgetList,
             carouselController: _controller,
             options: CarouselOptions(
-                height: 80.h,
+                height: 70.h,
                 autoPlay: false,
                 enlargeCenterPage: true,
                 aspectRatio: 2.0,
@@ -127,7 +136,7 @@ class _LearningOralHygieneState extends State<LearningOralHygiene> {
           ),
           const SizedBox(height: 10),
           FloatingActionButton(
-            backgroundColor: Color.fromARGB(255, 158, 190, 172),
+            backgroundColor: const Color.fromARGB(255, 158, 190, 172),
             onPressed: () {
               // 재생/일시 중지 기능을 `setState` 호출로 감쌉니다. 이렇게 함으로써 올바른 아이콘이
               // 보여집니다.
@@ -152,19 +161,95 @@ class _LearningOralHygieneState extends State<LearningOralHygiene> {
   }
 
   Widget brushingWithSong() {
-    return Container(width: 100.w, color: Colors.blue, child: Text('동요'));
+    return Container(
+        color: const Color.fromARGB(255, 226, 223, 216),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          SizedBox(height: 1.h),
+          Container(
+            //둥근모서리
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+            ),
+            padding: const EdgeInsets.all(10),
+            child: Text('노래와 함께 양치질 해보기',
+                style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.bold)),
+          ),
+          SizedBox(height: 2.h),
+          FutureBuilder(
+            future: _initializeVideoPlayerFuture2,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                _videoController!.setVolume(2.0);
+                return AspectRatio(
+                  aspectRatio: _videoController2!.value.aspectRatio,
+                  child: VideoPlayer(
+                    _videoController2!,
+                  ),
+                );
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
+          const SizedBox(height: 10),
+          FloatingActionButton(
+            backgroundColor: const Color.fromARGB(255, 158, 190, 172),
+            onPressed: () {
+              setState(() {
+                if (_videoController2!.value.isPlaying) {
+                  _videoController2!.pause();
+                } else {
+                  _videoController2!.play();
+                }
+              });
+            },
+            child: Icon(
+              _videoController2!.value.isPlaying
+                  ? Icons.pause
+                  : Icons.play_arrow,
+            ),
+          )
+        ]));
   }
 
   Widget selectToothBrush() {
     return Container(
-        width: 100.w, color: Colors.green, child: Text('칫솔 고르는 TIP'));
+        color: const Color.fromARGB(255, 158, 190, 172),
+        width: 100.w,
+        child: SingleChildScrollView(
+            child: SizedBox(
+          child: Image.asset('assets/images/teethBrush_and_toothpaste.jpg'),
+        )));
+  }
+
+  Widget toothpasteInfo() {
+    return Container(
+        color: const Color.fromARGB(255, 158, 190, 172),
+        width: 100.w,
+        child: SingleChildScrollView(
+            child: SizedBox(
+          child: Image.asset('assets/images/toothpasteInfo.jpg'),
+        )));
   }
 
   Widget dentalFloss() {
-    return Container(width: 100.w, color: Colors.yellow, child: Text('치실사용'));
+    return Container(
+        color: const Color.fromARGB(255, 158, 190, 172),
+        width: 100.w,
+        child: SingleChildScrollView(
+            child: SizedBox(
+          child: Image.asset('assets/images/dentalFlossInfo.jpg'),
+        )));
   }
 
   Widget diagnosisCavity() {
-    return Container(width: 100.w, color: Colors.orange, child: Text('충치진단방법'));
+    return Container(
+        color: const Color.fromARGB(255, 158, 190, 172),
+        width: 100.w,
+        child: SingleChildScrollView(
+            child: SizedBox(
+          child: Image.asset('assets/images/Diagnosis.jpg'),
+        )));
   }
 }
