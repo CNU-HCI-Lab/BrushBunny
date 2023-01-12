@@ -22,6 +22,7 @@ class _HomeMainFeedState extends State<HomeMainFeed> {
   List<dynamic>? clearDay = [];
   bool? _isSmile;
   bool firstInit = false;
+  bool selectMessage = true;
   int clearDayCount = 0;
 
   @override
@@ -64,6 +65,7 @@ class _HomeMainFeedState extends State<HomeMainFeed> {
             for (int i = 0; i < clearDayDate2.length; i++) {
               if (clearDayDate2[i] == _selectedDate) {
                 starCount++;
+                selectMessage = false;
               }
             }
 
@@ -94,9 +96,19 @@ class _HomeMainFeedState extends State<HomeMainFeed> {
                   ),
                 ),
                 calendarWidget(),
+                Visibility(
+                    visible: selectMessage,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        '달력의 날짜를 선택해주세요.',
+                        style: TextStyle(
+                            fontSize: 18.sp, fontWeight: FontWeight.w500),
+                      ),
+                    )),
                 if (clearDayDate2.contains(_selectedDate))
                   Align(
-                    alignment: Alignment.center + const Alignment(0, 0.1),
+                    alignment: Alignment.center,
                     child: //clearDayCount 만큼 별 출력
                         Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -112,7 +124,7 @@ class _HomeMainFeedState extends State<HomeMainFeed> {
                   ),
                 if (clearDayDate2.contains(_selectedDate))
                   Align(
-                      alignment: Alignment.center + const Alignment(0, 0.2),
+                      alignment: Alignment.center + const Alignment(0, 0.1),
                       child: Container(
                         color: Colors.white,
                         child: Text(

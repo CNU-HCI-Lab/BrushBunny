@@ -32,6 +32,7 @@ class _DoBrushingState extends State<DoBrushing> {
                 const Text('- 치약과 칫솔을 미리 준비해주세요.'),
                 const Text('- 스마트폰을 적절한 위치에 두고 양치질을 시작하세요.'),
                 const Text('- 카메라와 너무 멀면 인식이 되지 않습니다.'),
+                const Text('- 양치질이 끝나면 \'양치질 끝내기\' 버튼을 눌러주세요.'),
               ],
             ),
           ),

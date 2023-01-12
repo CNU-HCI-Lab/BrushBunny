@@ -35,11 +35,11 @@ class _HomePageState extends State<HomePage> {
       if (_selectedIndex == 0) {
         indexTitle = 'HOME ';
       } else if (_selectedIndex == 1) {
-        indexTitle = '배우기 ';
+        indexTitle = '구강위생공부 ';
       } else if (_selectedIndex == 2) {
-        indexTitle = '양치질 ';
+        indexTitle = '양치질하기 ';
       } else if (_selectedIndex == 3) {
-        indexTitle = '보상 ';
+        indexTitle = '보상영상 확인 ';
       }
       return Scaffold(
         backgroundColor: Colors.yellow[50],
