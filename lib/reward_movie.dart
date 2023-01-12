@@ -46,6 +46,54 @@ class _RewardMovieState extends State<RewardMovie> {
           } else {
             return OrientationBuilder(
                 builder: (BuildContext context, Orientation orientation) {
+              YoutubePlayerController youtbController = YoutubePlayerController(
+                initialVideoId: //유튜브Id가 null이면 임의영상재생
+                    youtubeId == null ? 'N0xMYWJBqdw' : youtubeId!,
+                flags: const YoutubePlayerFlags(
+                  autoPlay: false,
+                  mute: false,
+                ),
+              );
+
+              Widget youtubeWidget() {
+                return YoutubePlayerBuilder(
+                  onEnterFullScreen: () {
+                    // The player forces portraitUp after exiting fullscreen. This overrides the behaviour.
+                    SystemChrome.setPreferredOrientations([
+                      DeviceOrientation.landscapeLeft,
+                      DeviceOrientation.landscapeRight,
+                    ]);
+                    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+                        overlays: []);
+                  },
+                  onExitFullScreen: () {
+                    // The player forces portraitUp after exiting fullscreen. This overrides the behaviour.
+                    //세로모드 전환
+                    SystemChrome.setPreferredOrientations([
+                      DeviceOrientation.portraitUp,
+                      DeviceOrientation.portraitDown,
+                    ]);
+                    SystemChrome.setEnabledSystemUIMode(
+                        SystemUiMode.edgeToEdge);
+                  },
+                  player: YoutubePlayer(
+                    controller: youtbController,
+                    showVideoProgressIndicator: true,
+                    progressIndicatorColor: Colors.amber,
+                    progressColors: const ProgressBarColors(
+                      playedColor: Colors.amber,
+                      handleColor: Colors.amberAccent,
+                    ),
+                    onReady: () {
+                      setState(() {});
+                    },
+                  ),
+                  builder: (context, player) {
+                    return player;
+                  },
+                );
+              }
+
               if (orientation == Orientation.landscape) {
                 return Container(
                   child: youtubeWidget(),
@@ -95,7 +143,9 @@ class _RewardMovieState extends State<RewardMovie> {
                                 const Color(0xffF78F6E)),
                           ),
                           onPressed: () {
-                            Navigator.pop(context);
+                            //HOME으로 이동
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                '/home', (Route<dynamic> route) => false);
                           },
                           child: const Text('홈으로 돌아가기'),
                         ),
@@ -108,51 +158,6 @@ class _RewardMovieState extends State<RewardMovie> {
           }
         },
       ),
-    );
-  }
-
-  Widget youtubeWidget() {
-    return YoutubePlayerBuilder(
-      onEnterFullScreen: () {
-        // The player forces portraitUp after exiting fullscreen. This overrides the behaviour.
-        SystemChrome.setPreferredOrientations([
-          DeviceOrientation.landscapeLeft,
-          DeviceOrientation.landscapeRight,
-        ]);
-        SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-      },
-      onExitFullScreen: () {
-        // The player forces portraitUp after exiting fullscreen. This overrides the behaviour.
-        //세로모드 전환
-        SystemChrome.setPreferredOrientations([
-          DeviceOrientation.portraitUp,
-          DeviceOrientation.portraitDown,
-        ]);
-        SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-      },
-      player: YoutubePlayer(
-        controller: YoutubePlayerController(
-          initialVideoId: //유튜브Id가 null이면 임의영상재생
-              youtubeId == null ? 'N0xMYWJBqdw' : youtubeId!,
-          flags: const YoutubePlayerFlags(
-            autoPlay: false,
-            mute: false,
-          ),
-        ),
-        showVideoProgressIndicator: true,
-        progressIndicatorColor: Colors.amber,
-        progressColors: const ProgressBarColors(
-          playedColor: Colors.amber,
-          handleColor: Colors.amberAccent,
-        ),
-        onReady: () {
-          setState(() {});
-          //print('Player is ready.');
-        },
-      ),
-      builder: (context, player) {
-        return player;
-      },
     );
   }
 
@@ -193,20 +198,14 @@ class _RewardMovieState extends State<RewardMovie> {
                 //print('id: $youtubeId');
               } else {
                 //print('존재하지 않는 영상');
-                return "영상이 존재하지 않습니다.";
               }
-            } else {
-              //print('해당 영상 없음');
-              return "영상이 존재하지 않습니다.";
-            }
+            } else {}
           });
         } else {
           //print('사용자가 얻은 영상이 없습니다. (movie_index fied없음)');
-          return "영상이 존재하지 않습니다.";
         }
       } else {
         //print('사용자가 얻은 영상이 없습니다.');
-        return "영상이 존재하지 않습니다.";
       }
     });
     return "";

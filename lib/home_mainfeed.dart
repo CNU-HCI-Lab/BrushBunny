@@ -112,7 +112,7 @@ class _HomeMainFeedState extends State<HomeMainFeed> {
                               '양치질 기록확인',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 20.sp, fontWeight: FontWeight.w500),
+                                  fontSize: 19.sp, fontWeight: FontWeight.w500),
                             ),
                           ),
                           SizedBox(height: 1.h),
