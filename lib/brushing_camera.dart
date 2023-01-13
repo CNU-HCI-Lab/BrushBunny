@@ -6,6 +6,7 @@ import 'package:animated_background/animated_background.dart';
 import 'package:flutter_weather_bg_null_safety/flutter_weather_bg.dart';
 import 'package:custom_timer/custom_timer.dart';
 import 'package:oral_hygiene_habits/brushing_clear.dart';
+import 'package:just_audio/just_audio.dart';
 
 import 'main.dart';
 
@@ -41,8 +42,18 @@ class _BrushingCameraState extends State<BrushingCamera>
   String? clearTime;
   String timeProcessBar = "0";
 
+  AudioPlayer audioPlay = AudioPlayer();
+  Future audioPlayer() async {
+    await audioPlay.setAsset('assets/audio/brushing_song.mp3');
+    await audioPlay.setSpeed(1);
+    await audioPlay.setVolume(30);
+    await audioPlay.setLoopMode(LoopMode.one);
+    await audioPlay.play();
+  }
+
   @override
   void initState() {
+    audioPlayer();
     if (cameras.any(
       (element) =>
           element.lensDirection == widget.initialDirection &&
@@ -68,6 +79,7 @@ class _BrushingCameraState extends State<BrushingCamera>
 
   @override
   void dispose() {
+    audioPlay.dispose();
     _stopLiveFeed();
     _timer.dispose();
     super.dispose();
