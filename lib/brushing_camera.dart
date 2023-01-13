@@ -163,7 +163,7 @@ class _BrushingCameraState extends State<BrushingCamera>
                                 //현재 창 종료하고 /brushing_claer 로 이동
                                 _timer.pause();
                                 Navigator.pop(context);
-                                if (durationSeconds >= 60) {
+                                if (durationSeconds >= 120) {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
