@@ -134,8 +134,14 @@ class _GoalRewardState extends State<GoalReward> {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        userMovieCount = documentSnapshot['movie_index'];
-        //print("userMovieCount: $userMovieCount");
+        if ((documentSnapshot.data() as Map<String, dynamic>)
+            .containsKey('id')) {
+          userMovieCount = documentSnapshot['movie_index'];
+          //print("userMovieCount: $userMovieCount");
+        } else {
+          userMovieCount = 0;
+          //print('Document does not exist on the database');
+        }
       } else {
         userMovieCount = 0;
         //print('Document does not exist on the database');

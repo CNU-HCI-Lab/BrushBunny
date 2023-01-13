@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:oral_hygiene_habits/home_page.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'reward_movie.dart';
 
-class BrushingClear extends StatefulWidget {
-  const BrushingClear({
+class BrushingFailed extends StatefulWidget {
+  const BrushingFailed({
     super.key,
     this.time,
     this.goodCount,
@@ -20,10 +21,10 @@ class BrushingClear extends StatefulWidget {
   final int? durationSeconds;
 
   @override
-  State<BrushingClear> createState() => _BrushingClearState();
+  State<BrushingFailed> createState() => _BrushingFailedState();
 }
 
-class _BrushingClearState extends State<BrushingClear> {
+class _BrushingFailedState extends State<BrushingFailed> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore db = FirebaseFirestore.instance;
   int movieIndex = 0;
@@ -62,35 +63,6 @@ class _BrushingClearState extends State<BrushingClear> {
       //print('양치완료');
     }
 
-    rewardMovieGet() async {
-      await db
-          .collection('user_reward_info')
-          .doc(uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        if (documentSnapshot.exists) {
-          if ((documentSnapshot.data() as Map<String, dynamic>)
-              .containsKey('movie_index')) {
-            int tmp = documentSnapshot['movie_index'];
-            movieIndex = tmp + 1;
-            //movie_index 필드 수정
-            db.collection('user_reward_info').doc(uid).set({
-              'movie_index': movieIndex,
-            }, SetOptions(merge: true));
-          } else {
-            //print('사용자가 얻은 영상이 없습니다. (movie_index fied없음)');
-            //movie_index필드 추가
-            db.collection('user_reward_info').doc(uid).set({
-              'movie_index': 1,
-            }, SetOptions(merge: true));
-            movieIndex = 1;
-          }
-        } else {
-          //print('사용자가 얻은 영상이 없습니다.');
-        }
-      });
-    }
-
     return ResponsiveSizer(builder: (context, orientation, deviceType) {
       return Scaffold(
         backgroundColor: const Color(0xfffffde7),
@@ -103,8 +75,8 @@ class _BrushingClearState extends State<BrushingClear> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Image(
-                image: const AssetImage('assets/images/BrushBunny.png'),
-                width: 80.w,
+                image: const AssetImage('assets/images/surpriseBunny.png'),
+                width: 60.w,
               ),
             ),
             Column(
@@ -119,6 +91,13 @@ class _BrushingClearState extends State<BrushingClear> {
                 SizedBox(height: 2.h),
                 claerCard(),
                 SizedBox(height: 3.h),
+                const Text(
+                  '양치질 시간이 짧아서, 영상보상을 획득하지 못했어요.',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 1.h),
+                const Text('다음에는 최소 2분 이상 양치질을 해주세요!'),
+                SizedBox(height: 2.h),
                 ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
@@ -128,17 +107,11 @@ class _BrushingClearState extends State<BrushingClear> {
                   onPressed: () async {
                     checkTodayBrushing();
                     recordTodayPoint();
-                    await rewardMovieGet();
                     if (!mounted) return;
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const RewardMovie(),
-                      ),
-                    );
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/home', (Route<dynamic> route) => false);
                   },
-                  child: const Text('양치질 내역 기록하고 보상얻기',
+                  child: const Text('홈으로 돌아가기',
                       style: TextStyle(
                         fontSize: 15,
                       )),

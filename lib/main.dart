@@ -9,6 +9,7 @@ import 'register_page.dart';
 import 'login_page.dart';
 import 'do_brushing.dart';
 import 'brushing_label.dart';
+import 'brushing_failed.dart';
 
 List<CameraDescription> cameras = [];
 void main() async {
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginPage(),
         '/do_brushing': (context) => const DoBrushing(),
         '/brushing_label': (context) => const BrushingLabel(),
+        '/brushing_failed': (context) => const BrushingFailed(),
       },
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(), //로그인상태검사

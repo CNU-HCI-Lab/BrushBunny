@@ -7,6 +7,7 @@ import 'package:flutter_weather_bg_null_safety/flutter_weather_bg.dart';
 import 'package:custom_timer/custom_timer.dart';
 import 'package:oral_hygiene_habits/brushing_clear.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:oral_hygiene_habits/brushing_failed.dart';
 
 import 'main.dart';
 
@@ -41,6 +42,7 @@ class _BrushingCameraState extends State<BrushingCamera>
   int _cameraIndex = -1;
   String? clearTime;
   String timeProcessBar = "0";
+  int durationSeconds = 0;
 
   AudioPlayer audioPlay = AudioPlayer();
   Future audioPlayer() async {
@@ -161,16 +163,31 @@ class _BrushingCameraState extends State<BrushingCamera>
                                 //현재 창 종료하고 /brushing_claer 로 이동
                                 _timer.pause();
                                 Navigator.pop(context);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => BrushingClear(
-                                      time: clearTime,
-                                      goodCount: widget.goodLevel,
-                                      badCount: widget.realbadLevel,
+                                if (durationSeconds >= 60) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => BrushingClear(
+                                        time: clearTime,
+                                        goodCount: widget.goodLevel,
+                                        badCount: widget.realbadLevel,
+                                        durationSeconds: durationSeconds,
+                                      ),
                                     ),
-                                  ),
-                                );
+                                  );
+                                } else {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => BrushingFailed(
+                                        time: clearTime,
+                                        goodCount: widget.goodLevel,
+                                        badCount: widget.realbadLevel,
+                                        durationSeconds: durationSeconds,
+                                      ),
+                                    ),
+                                  );
+                                }
                               },
                               child: const Text('네'),
                             ),
@@ -200,6 +217,7 @@ class _BrushingCameraState extends State<BrushingCamera>
         end: const Duration(minutes: 5),
         builder: (time) {
           timeProcessBar = time.duration.inSeconds.toString();
+          durationSeconds = time.duration.inSeconds;
           clearTime = "${time.minutes}:${time.seconds}";
           return Text("${time.minutes}:${time.seconds}",
               style: const TextStyle(
