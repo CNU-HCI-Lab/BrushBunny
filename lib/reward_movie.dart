@@ -101,7 +101,7 @@ class _RewardMovieState extends State<RewardMovie> {
               } else {
                 return SingleChildScrollView(
                   child: SizedBox(
-                    height: 70.h,
+                    height: 90.h,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

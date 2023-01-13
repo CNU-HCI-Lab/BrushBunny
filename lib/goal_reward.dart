@@ -135,7 +135,7 @@ class _GoalRewardState extends State<GoalReward> {
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         if ((documentSnapshot.data() as Map<String, dynamic>)
-            .containsKey('id')) {
+            .containsKey('movie_index')) {
           userMovieCount = documentSnapshot['movie_index'];
           //print("userMovieCount: $userMovieCount");
         } else {
