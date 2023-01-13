@@ -39,6 +39,7 @@ class _BrushingCameraState extends State<BrushingCamera>
   CameraController? _controller;
   int _cameraIndex = -1;
   String? clearTime;
+  String timeProcessBar = "0";
 
   @override
   void initState() {
@@ -112,15 +113,20 @@ class _BrushingCameraState extends State<BrushingCamera>
           if (status == 'good' && goodLevel > 20 && goodLevel <= 50)
             _goodBackground50(),
           if (status == 'good' && goodLevel > 50) _goodBackground100(),
-          if (status == 'bad' && badLevel > 2) _badBackground(),
+          //if (status == 'bad' && badLevel > 2) _badBackground(),
           Align(
             //양치질 시간표시
             alignment: Alignment.topCenter + const Alignment(0, 0.05),
             child: _timerWidget(),
           ),
           Align(
+            //시간 process표시
+            alignment: Alignment.topCenter + const Alignment(0, 0.2),
+            child: _timeBar(),
+          ),
+          Align(
             //goodLevel표시
-            alignment: Alignment.topCenter + const Alignment(0, 0.25),
+            alignment: Alignment.topCenter + const Alignment(0, 0.35),
             child: _processGood(),
           ),
           Align(
@@ -181,6 +187,7 @@ class _BrushingCameraState extends State<BrushingCamera>
         begin: const Duration(),
         end: const Duration(minutes: 5),
         builder: (time) {
+          timeProcessBar = time.duration.inSeconds.toString();
           clearTime = "${time.minutes}:${time.seconds}";
           return Text("${time.minutes}:${time.seconds}",
               style: const TextStyle(
@@ -277,12 +284,25 @@ class _BrushingCameraState extends State<BrushingCamera>
     int goodCount2 = widget.goodCount2;
     return Container(
         padding: const EdgeInsets.only(left: 35, right: 35),
-        child: LinearProgressIndicator(
-          minHeight: 8,
+        child: CircularProgressIndicator(
+          strokeWidth: 10,
           value: goodCount2 / 10,
           backgroundColor: Colors.white54,
           valueColor: const AlwaysStoppedAnimation<Color>(
               Color.fromARGB(255, 255, 136, 0)),
+        ));
+  }
+
+  Widget _timeBar() {
+    double processTimeCount = double.parse(timeProcessBar);
+    return Container(
+        padding: const EdgeInsets.only(left: 30, right: 30),
+        child: LinearProgressIndicator(
+          minHeight: 15,
+          value: processTimeCount / 120,
+          backgroundColor: Colors.white54,
+          valueColor: const AlwaysStoppedAnimation<Color>(
+              Color.fromARGB(255, 0, 225, 255)),
         ));
   }
 
