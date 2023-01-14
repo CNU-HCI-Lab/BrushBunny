@@ -27,6 +27,7 @@ class _BrushingClearState extends State<BrushingClear> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore db = FirebaseFirestore.instance;
   int movieIndex = 0;
+  String movieId = '';
 
   @override
   void dispose() {
@@ -77,6 +78,25 @@ class _BrushingClearState extends State<BrushingClear> {
             db.collection('user_reward_info').doc(uid).set({
               'movie_index': movieIndex,
             }, SetOptions(merge: true));
+            db
+                .collection('reward_movies')
+                .doc(movieIndex.toString())
+                .get()
+                .then((DocumentSnapshot documentSnapshot) {
+              if (documentSnapshot.exists) {
+                if ((documentSnapshot.data() as Map<String, dynamic>)
+                    .containsKey('id')) {
+                  movieId = documentSnapshot['id'];
+                  //print('id: $youtubeId');
+                } else {
+                  movieId = "N0xMYWJBqdw";
+                  //print('존재하지 않는 영상');
+                }
+              } else {
+                movieId = "N0xMYWJBqdw";
+                //print('Document does not exist on the database');
+              }
+            });
           } else {
             //print('사용자가 얻은 영상이 없습니다. (movie_index fied없음)');
             //movie_index필드 추가
@@ -84,11 +104,55 @@ class _BrushingClearState extends State<BrushingClear> {
               'movie_index': 1,
             }, SetOptions(merge: true));
             movieIndex = 1;
+            db
+                .collection('reward_movies')
+                .doc(movieIndex.toString())
+                .get()
+                .then((DocumentSnapshot documentSnapshot) {
+              if (documentSnapshot.exists) {
+                if ((documentSnapshot.data() as Map<String, dynamic>)
+                    .containsKey('id')) {
+                  movieId = documentSnapshot['id'];
+                  //print('id: $youtubeId');
+                } else {
+                  movieId = "N0xMYWJBqdw";
+                  //print('존재하지 않는 영상');
+                }
+              } else {
+                movieId = "N0xMYWJBqdw";
+                //print('Document does not exist on the database');
+              }
+            });
           }
         } else {
           //print('사용자가 얻은 영상이 없습니다.');
+          //movie_index필드 추가
+          db.collection('user_reward_info').doc(uid).set({
+            'movie_index': 1,
+          }, SetOptions(merge: true));
+          movieIndex = 1;
+          db
+              .collection('reward_movies')
+              .doc(movieIndex.toString())
+              .get()
+              .then((DocumentSnapshot documentSnapshot) {
+            if (documentSnapshot.exists) {
+              if ((documentSnapshot.data() as Map<String, dynamic>)
+                  .containsKey('id')) {
+                movieId = documentSnapshot['id'];
+                //print('id: $youtubeId');
+              } else {
+                movieId = "N0xMYWJBqdw";
+                //print('존재하지 않는 영상');
+              }
+            } else {
+              movieId = "N0xMYWJBqdw";
+              //print('Document does not exist on the database');
+            }
+          });
         }
       });
+      return movieId;
     }
 
     return ResponsiveSizer(builder: (context, orientation, deviceType) {
@@ -119,29 +183,40 @@ class _BrushingClearState extends State<BrushingClear> {
                 SizedBox(height: 2.h),
                 claerCard(),
                 SizedBox(height: 3.h),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                      const Color(0xffFFC6A2),
-                    ),
-                  ),
-                  onPressed: () async {
-                    checkTodayBrushing();
-                    recordTodayPoint();
-                    await rewardMovieGet();
-                    if (!mounted) return;
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const RewardMovie(),
-                      ),
-                    );
+                FutureBuilder(
+                  future: rewardMovieGet(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            const Color(0xffFFC6A2),
+                          ),
+                        ),
+                        onPressed: () async {
+                          checkTodayBrushing();
+                          recordTodayPoint();
+                          if (!mounted) return;
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  RewardMovie(clearMovieId: movieId),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          '양치질 내역 기록하고 보상얻기',
+                          style: TextStyle(
+                            fontSize: 15,
+                          ),
+                        ),
+                      ); //Text('오늘 양치질 점수: $todayPoint점');
+                    } else {
+                      return const CircularProgressIndicator();
+                    }
                   },
-                  child: const Text('양치질 내역 기록하고 보상얻기',
-                      style: TextStyle(
-                        fontSize: 15,
-                      )),
                 ),
               ],
             ),

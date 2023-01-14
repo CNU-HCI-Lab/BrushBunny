@@ -6,7 +6,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class RewardMovie extends StatefulWidget {
-  const RewardMovie({super.key});
+  const RewardMovie({super.key, required this.clearMovieId});
+
+  final String clearMovieId;
 
   @override
   State<RewardMovie> createState() => _RewardMovieState();
@@ -15,9 +17,17 @@ class RewardMovie extends StatefulWidget {
 class _RewardMovieState extends State<RewardMovie> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore db = FirebaseFirestore.instance;
+  YoutubePlayerController? youtbController;
 
   @override
   void initState() {
+    youtbController = YoutubePlayerController(
+      initialVideoId: widget.clearMovieId,
+      flags: const YoutubePlayerFlags(
+        autoPlay: false,
+        mute: false,
+      ),
+    );
     super.initState();
   }
 
@@ -46,15 +56,6 @@ class _RewardMovieState extends State<RewardMovie> {
           } else {
             return OrientationBuilder(
                 builder: (BuildContext context, Orientation orientation) {
-              YoutubePlayerController youtbController = YoutubePlayerController(
-                initialVideoId: //유튜브Id가 null이면 임의영상재생
-                    youtubeId == null ? 'N0xMYWJBqdw' : youtubeId!,
-                flags: const YoutubePlayerFlags(
-                  autoPlay: false,
-                  mute: false,
-                ),
-              );
-
               Widget youtubeWidget() {
                 return YoutubePlayerBuilder(
                   onEnterFullScreen: () {
@@ -77,7 +78,7 @@ class _RewardMovieState extends State<RewardMovie> {
                         SystemUiMode.edgeToEdge);
                   },
                   player: YoutubePlayer(
-                    controller: youtbController,
+                    controller: youtbController!,
                     showVideoProgressIndicator: true,
                     progressIndicatorColor: Colors.amber,
                     progressColors: const ProgressBarColors(
