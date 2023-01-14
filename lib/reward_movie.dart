@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -37,6 +38,10 @@ class _RewardMovieState extends State<RewardMovie> {
 
   Widget youtubePlayerBuild() {
     return YoutubePlayerBuilder(
+      onExitFullScreen: () {
+        SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+            overlays: SystemUiOverlay.values);
+      },
       player: YoutubePlayer(
         controller: youtbController!,
         showVideoProgressIndicator: true,
@@ -114,6 +119,9 @@ class _RewardMovieState extends State<RewardMovie> {
                     MaterialStateProperty.all(const Color(0xffF78F6E)),
               ),
               onPressed: () {
+                //전체화면 해제, 상태바 보이게하기
+                SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+                    overlays: SystemUiOverlay.values);
                 //HOME으로 이동
                 Navigator.of(context).pushNamedAndRemoveUntil(
                     '/home', (Route<dynamic> route) => false);

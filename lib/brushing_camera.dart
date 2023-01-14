@@ -329,7 +329,7 @@ class _BrushingCameraState extends State<BrushingCamera>
         padding: const EdgeInsets.only(left: 30, right: 30),
         child: LinearProgressIndicator(
           minHeight: 15,
-          value: processTimeCount / 120,
+          value: processTimeCount / 60,
           backgroundColor: Colors.white54,
           valueColor: const AlwaysStoppedAnimation<Color>(
               Color.fromARGB(255, 0, 225, 255)),
