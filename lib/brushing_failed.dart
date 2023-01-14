@@ -94,7 +94,7 @@ class _BrushingFailedState extends State<BrushingFailed> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 1.h),
-                const Text('다음에는 최소 2분 이상 양치질을 해주세요!'),
+                const Text('다음에는 최소 1분 이상 양치질을 해주세요!'),
                 SizedBox(height: 2.h),
                 ElevatedButton(
                   style: ButtonStyle(
