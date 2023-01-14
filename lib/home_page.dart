@@ -85,6 +85,9 @@ class _HomePageState extends State<HomePage> {
                             onPressed: () {
                               Navigator.pop(context, 'OK');
                               FirebaseAuth.instance.signOut();
+                              //main.dart로 이동
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, '/start_page', (route) => false);
                             },
                             child: const Text('OK'),
                           ),

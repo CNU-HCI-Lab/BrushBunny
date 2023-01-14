@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -36,6 +35,97 @@ class _RewardMovieState extends State<RewardMovie> {
     super.dispose();
   }
 
+  Widget youtubePlayerBuild() {
+    return YoutubePlayerBuilder(
+      player: YoutubePlayer(
+        controller: youtbController!,
+        showVideoProgressIndicator: true,
+        progressIndicatorColor: Colors.amber,
+        progressColors: const ProgressBarColors(
+          playedColor: Colors.amber,
+          handleColor: Colors.amberAccent,
+        ),
+        onReady: () {
+          print('Player is ready.');
+        },
+      ),
+      builder: (context, player) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('영상보상을 획득했어요!',
+                style: TextStyle(
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.bold,
+                    color: const Color.fromARGB(255, 105, 105, 105))),
+            SizedBox(height: 2.h),
+            player,
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.play_arrow),
+                  onPressed: () {
+                    youtbController!.play();
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.pause),
+                  onPressed: () {
+                    youtbController!.pause();
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.stop),
+                  onPressed: () {
+                    youtbController!.pause();
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: 2.h),
+            Text(
+              '시즌 $seasonNum: 제 $episodeNum 화',
+              style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
+            Text(
+              '[$movieName]',
+              style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
+            Text(
+              '$movieTitle',
+              style: TextStyle(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
+            SizedBox(height: 2.h),
+            const Text('홈화면의 보상 탭에서도 영상을 확인할 수 있습니다.'),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(const Color(0xffF78F6E)),
+              ),
+              onPressed: () {
+                //HOME으로 이동
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/home', (Route<dynamic> route) => false);
+              },
+              child: const Text('홈으로 돌아가기'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,108 +144,7 @@ class _RewardMovieState extends State<RewardMovie> {
           } else if (snapshot.hasError) {
             return const Text('error');
           } else {
-            return OrientationBuilder(
-                builder: (BuildContext context, Orientation orientation) {
-              Widget youtubeWidget() {
-                return YoutubePlayerBuilder(
-                  onEnterFullScreen: () {
-                    // The player forces portraitUp after exiting fullscreen. This overrides the behaviour.
-                    SystemChrome.setPreferredOrientations([
-                      DeviceOrientation.landscapeLeft,
-                      DeviceOrientation.landscapeRight,
-                    ]);
-                    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-                        overlays: []);
-                  },
-                  onExitFullScreen: () {
-                    // The player forces portraitUp after exiting fullscreen. This overrides the behaviour.
-                    //세로모드 전환
-                    SystemChrome.setPreferredOrientations([
-                      DeviceOrientation.portraitUp,
-                      DeviceOrientation.portraitDown,
-                    ]);
-                    SystemChrome.setEnabledSystemUIMode(
-                        SystemUiMode.edgeToEdge);
-                  },
-                  player: YoutubePlayer(
-                    controller: youtbController!,
-                    showVideoProgressIndicator: true,
-                    progressIndicatorColor: Colors.amber,
-                    progressColors: const ProgressBarColors(
-                      playedColor: Colors.amber,
-                      handleColor: Colors.amberAccent,
-                    ),
-                    onReady: () {
-                      setState(() {});
-                    },
-                  ),
-                  builder: (context, player) {
-                    return player;
-                  },
-                );
-              }
-
-              if (orientation == Orientation.landscape) {
-                return Container(
-                  child: youtubeWidget(),
-                );
-              } else {
-                return SingleChildScrollView(
-                  child: SizedBox(
-                    height: 90.h,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('영상보상을 획득했어요!',
-                            style: TextStyle(
-                                fontSize: 22.sp,
-                                fontWeight: FontWeight.bold,
-                                color:
-                                    const Color.fromARGB(255, 105, 105, 105))),
-                        SizedBox(height: 2.h),
-                        youtubeWidget(),
-                        SizedBox(height: 2.h),
-                        Text(
-                          '시즌 $seasonNum: 제 $episodeNum 화',
-                          style: TextStyle(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),
-                        ),
-                        Text(
-                          '[$movieName]',
-                          style: TextStyle(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),
-                        ),
-                        Text(
-                          '$movieTitle',
-                          style: TextStyle(
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),
-                        ),
-                        SizedBox(height: 2.h),
-                        const Text('홈화면의 보상 탭에서도 영상을 확인할 수 있습니다.'),
-                        ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                const Color(0xffF78F6E)),
-                          ),
-                          onPressed: () {
-                            //HOME으로 이동
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                '/home', (Route<dynamic> route) => false);
-                          },
-                          child: const Text('홈으로 돌아가기'),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }
-            });
+            return youtubePlayerBuild();
           }
         },
       ),

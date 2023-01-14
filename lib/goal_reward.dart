@@ -67,8 +67,7 @@ class _GoalRewardState extends State<GoalReward> {
                       child: Row(
                         children: [
                           Container(
-                            margin: EdgeInsets.only(
-                                left: 3.w, right: 3.w, top: 1.h, bottom: 1.h),
+                            margin: EdgeInsets.only(left: 3.w, right: 3.w),
                             child: Image.network(
                               "https://img.youtube.com/vi/${youtubeId[index]}/0.jpg",
                               width: 35.w,
@@ -94,7 +93,7 @@ class _GoalRewardState extends State<GoalReward> {
                                   ),
                                 ),
                                 SizedBox(
-                                  width: 25.h,
+                                  width: 20.h,
                                   child: Text(
                                     movieTitle[index],
                                     style: TextStyle(

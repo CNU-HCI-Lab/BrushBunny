@@ -127,7 +127,7 @@ class _BrushingCameraState extends State<BrushingCamera>
           if (status == 'good' && goodLevel > 20 && goodLevel <= 50)
             _goodBackground50(),
           if (status == 'good' && goodLevel > 50) _goodBackground100(),
-          if (status == 'bad' && badLevel > 2) _badBackground(),
+          if (status == 'bad' && badLevel > 1) _badBackground(),
           Align(
             //양치질 시간표시
             alignment: Alignment.topCenter + const Alignment(0, 0.05),

@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
         '/do_brushing': (context) => const DoBrushing(),
         '/brushing_label': (context) => const BrushingLabel(),
         '/brushing_failed': (context) => const BrushingFailed(),
+        '/start_page': (context) => const StartPage(),
       },
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(), //로그인상태검사
