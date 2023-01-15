@@ -51,7 +51,7 @@ class _RewardMovieState extends State<RewardMovie> {
           handleColor: Colors.amberAccent,
         ),
         onReady: () {
-          print('Player is ready.');
+          //print('Player is ready.');
         },
       ),
       builder: (context, player) {
