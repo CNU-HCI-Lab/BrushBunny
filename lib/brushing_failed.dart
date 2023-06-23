@@ -155,7 +155,7 @@ class _BrushingFailedState extends State<BrushingFailed> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  '칭찬포인트',
+                  'Good Point!',
                   style: TextStyle(fontSize: 20),
                 ),
                 Text(
@@ -173,7 +173,7 @@ class _BrushingFailedState extends State<BrushingFailed> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  '패널티',
+                  'Bed Point',
                   style: TextStyle(fontSize: 20),
                 ),
                 Text(

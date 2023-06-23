@@ -81,9 +81,9 @@ class _BrushingLabelState extends State<BrushingLabel> {
         //print('good: $_goodLevel');
       } else if (label.label == 'bad') {
         _badCount += 1;
-        _badLevel = _badCount ~/ 15;
+        _badLevel = _badCount ~/ 5; //AR이미지 표현을 위한 변수
         _realbadCount += 1;
-        _realbadLevel = _badCount ~/ 5;
+        _realbadLevel = _realbadCount ~/ 5; //bad점수로 반영될 변수
         _status = 'bad';
         //print('bad: $_badLevel');
       }

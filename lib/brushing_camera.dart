@@ -122,11 +122,11 @@ class _BrushingCameraState extends State<BrushingCamera>
               child: CameraPreview(_controller!),
             ),
           ),
-          if (status == 'good' && goodLevel <= 20)
+          if (status == 'good' && goodLevel <= 50)
             _goodBackground20(), //good일때 배경
-          if (status == 'good' && goodLevel > 20 && goodLevel <= 50)
+          if (status == 'good' && goodLevel > 50 && goodLevel <= 90)
             _goodBackground50(),
-          if (status == 'good' && goodLevel > 50) _goodBackground100(),
+          if (status == 'good' && goodLevel > 90) _goodBackground100(),
           if (status == 'bad' && badLevel > 1) _badBackground(),
           Align(
             //양치질 시간표시
@@ -138,11 +138,11 @@ class _BrushingCameraState extends State<BrushingCamera>
             alignment: Alignment.topCenter + const Alignment(0, 0.2),
             child: _timeBar(),
           ),
-          Align(
-            //goodLevel표시
-            alignment: Alignment.topCenter + const Alignment(0, 0.35),
-            child: _processGood(),
-          ),
+          //Align(
+          //  //goodLevel표시
+          //  alignment: Alignment.topCenter + const Alignment(0, 0.35),
+          //  child: _processGood(),
+          //),
           Align(
             //양치질끝내기
             alignment: Alignment.bottomCenter + const Alignment(0, -0.2),
@@ -163,7 +163,7 @@ class _BrushingCameraState extends State<BrushingCamera>
                                 //현재 창 종료하고 /brushing_claer 로 이동
                                 _timer.pause();
                                 Navigator.pop(context);
-                                if (durationSeconds >= 60) {
+                                if (durationSeconds >= 120) {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -308,20 +308,20 @@ class _BrushingCameraState extends State<BrushingCamera>
       child: const SizedBox(),
     );
   }
-
-  Widget _processGood() {
-    //goodLevel진행을 나타내는 ProgressIndicator, 짧은버전. 10초
-    int goodCount2 = widget.goodCount2;
-    return Container(
-        padding: const EdgeInsets.only(left: 35, right: 35),
-        child: CircularProgressIndicator(
-          strokeWidth: 10,
-          value: goodCount2 / 10,
-          backgroundColor: Colors.white54,
-          valueColor: const AlwaysStoppedAnimation<Color>(
-              Color.fromARGB(255, 255, 136, 0)),
-        ));
-  }
+  //
+  // Widget _processGood() {
+  //   //goodLevel진행을 나타내는 ProgressIndicator, 짧은버전. 10초
+  //   int goodCount2 = widget.goodCount2;
+  //   return Container(
+  //       padding: const EdgeInsets.only(left: 35, right: 35),
+  //       child: CircularProgressIndicator(
+  //         strokeWidth: 10,
+  //         value: goodCount2 / 10,
+  //         backgroundColor: Colors.white54,
+  //         valueColor: const AlwaysStoppedAnimation<Color>(
+  //             Color.fromARGB(255, 255, 136, 0)),
+  //       ));
+  // }
 
   Widget _timeBar() {
     double processTimeCount = double.parse(timeProcessBar);
@@ -329,7 +329,7 @@ class _BrushingCameraState extends State<BrushingCamera>
         padding: const EdgeInsets.only(left: 30, right: 30),
         child: LinearProgressIndicator(
           minHeight: 15,
-          value: processTimeCount / 60,
+          value: processTimeCount / 120,
           backgroundColor: Colors.white54,
           valueColor: const AlwaysStoppedAnimation<Color>(
               Color.fromARGB(255, 0, 225, 255)),
