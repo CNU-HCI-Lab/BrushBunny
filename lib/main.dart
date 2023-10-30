@@ -1,3 +1,11 @@
+/*
+ * Acknowledgemnet
+ *
+ * 이 기술은 과학기술정보통신부 및 정보통신기획평과원의
+ * 융합보안 핵심인재 양성 사업의 연구 결과로 개발한 결과물입니다.
+ *
+ */
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
